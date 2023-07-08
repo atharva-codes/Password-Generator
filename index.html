@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Secure Password Generator</title>
+    <!-- GitHub: repository-labels "secure password generator", "web application", "passwords" -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/11.2.0/font/octicons.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1650f1, #cf1111);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* GitHub: label "container" */
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        /* GitHub: label "heading" */
+        
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        /* GitHub: label "form" */
+        
+        .form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        /* GitHub: label "input" */
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        /* GitHub: label "input-number" */
+        
+        input[type="number"] {
+            padding: 5px;
+            width: 50px;
+        }
+        /* GitHub: label "input-select" */
+        
+        select {
+            padding: 5px;
+        }
+        /* GitHub: label "button" */
+        
+        button {
+            padding: 8px 16px;
+            background-color: rgb(10, 68, 226);
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        /* GitHub: label "button-hover" */
+        
+        button:hover {
+            background-color: rgb(38, 212, 14);
+        }
+        /* GitHub: label "output" */
+        
+        input[type="text"] {
+            width: 300px;
+            padding: 5px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        /* GitHub: label "repo-button" */
+        
+        .repo-button {
+            margin-top: 20px;
+        }
+        /* GitHub: label "repo-icon" */
+        
+        .repo-icon::before {
+            content: "\f113";
+            font-family: Octicons;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+    </style>
+    <script>
+        // JavaScript code
+        function openGitHubRepository() {
+            window.open('https://github.com/atharva-codes/Password-Generator/', '_blank');
+        }
+
+        function generatePassword() {
+            var length = document.getElementById("length").value;
+            var includeAlphabets = document.getElementById("include-alphabets").checked;
+            var includeNumbers = document.getElementById("include-numbers").checked;
+            var includeUniqueCodes = document.getElementById("include-unique-codes").checked;
+            var password = generateRandomPassword(length, includeAlphabets, includeNumbers, includeUniqueCodes);
+            document.getElementById("password").value = password;
+        }
+
+        function generateRandomPassword(length, includeAlphabets, includeNumbers, includeUniqueCodes) {
+            var charset = "";
+            var password = "";
+
+            if (includeAlphabets) {
+                charset += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            }
+
+            if (includeNumbers) {
+                charset += "0123456789";
+            }
+
+            if (includeUniqueCodes) {
+                charset += "!@#$%^&*(_+=-}{:\"?><|][\\]';/.,";
+            }
+
+            if (charset === "") {
+                return "Please select at least one option.";
+            }
+
+            for (var i = 0; i < length; i++) {
+                var randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset[randomIndex];
+            }
+
+            return password;
+        }
+
+        function copyPassword() {
+            var passwordInput = document.getElementById("password");
+            passwordInput.select();
+            passwordInput.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Password copied to clipboard!");
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Secure Password Generator</h1>
+        <div class="form">
+            <label for="length">Password Length:</label>
+            <input type="number" id="length" min="8" max="20" value="12">
+            <label><input type="checkbox" id="include-alphabets" checked>Include Alphabets</label>
+            <label><input type="checkbox" id="include-numbers" checked>Include Numbers</label>
+            <label><input type="checkbox" id="include-unique-codes" checked>Include Unique Codes</label>
+            <br>
+            <button onclick="generatePassword()">Generate</button>
+            <br>
+            <input type="text" id="password" readonly>
+            <br>
+            <button onclick="copyPassword()">Copy Password</button>
+        </div>
+        <div class="repo-button">
+            <!-- GitHub: repository-button -->
+            <button onclick="openGitHubRepository()">
+                <span class="repo-icon"></span>
+                GitHub Repository
+            </button>
+        </div>
+    </div>
+</body>
+</html>
